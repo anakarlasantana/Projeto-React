@@ -1,12 +1,14 @@
 // Todo arquivo react é JSX + XML (html)//
 import { useState } from 'react'
 import { Header } from './components/Header';
-import {Post} from "./Post"; // Posso adicionar qualquer nome para o componenete na hora da expostação//
+import {Post} from "./components/Post"; // Posso adicionar qualquer nome para o componenete na hora da expostação//
+import { Sidebar } from './components/Sidebar';
+
 import styles from "./App.module.css";
 
 import "./global.css";
 
-import { Sidebar } from './components/Sidebar';
+
 
 export function App() {
   const [count, setCount] = useState(0)
