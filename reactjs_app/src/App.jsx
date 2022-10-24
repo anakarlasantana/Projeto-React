@@ -1,8 +1,8 @@
 // Todo arquivo react é JSX + XML (html)//
 import { useState } from 'react'
-import { Header } from '../../../src/components/Header';
-import {Post} from "../../../src/components/Post"; // Posso adicionar qualquer nome para o componenete na hora da expostação//
-import { Sidebar } from '../../../src/components/Sidebar';
+import { Header } from './components/Header';
+import {Post} from "./components/Post"; // Posso adicionar qualquer nome para o componenete na hora da expostação//
+import { Sidebar } from './components/Sidebar';
 
 import styles from "./App.module.css";
 
