@@ -8,3 +8,13 @@
     gap: 2rem;
     align-items: flex-start;
 }
+
+@media (max-width: 768px) {
+    .html {
+        font-size: 87.5%; /* 16 é 100% e agente quer 14 -> Então precisamos saber o percentual de 14 por 16 */
+    }
+
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+}

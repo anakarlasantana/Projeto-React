@@ -2,19 +2,25 @@ import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 import styles from "./Post.module.css";
 
-export function Post() {
+export function Post({author, publishedAt}) {
+    const publishedDateFormated = new Intl.DateTimeFormat('pt-Br', {
+        day: '2-digit',
+        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+    }). format(publishedAt)
     return(
         <article className={styles.post}>
                 <header>
                     <div className={styles.author}>
-                        <Avatar src="https://i.pinimg.com/236x/25/39/2b/25392bc6f4360af33b187e9b6ce16dd1.jpg"alt="imagem de perfil de outro usuário" />
+                        <Avatar src={author.avatarUrl} />
                         <dir className={styles.authorInfo}>
-                        <strong>Diego Fernandes</strong>
-                        <span>Web Developer</span>
+                        <strong>{author.name}</strong>
+                        <span>{author.role}</span>
                     </dir>
                     </div>
                     
-                    <time title="10 de Outubro às 14:58h" dateTime="200-10-10 14:58:36">Publicado há 1h</time>
+                    <time title="10 de Outubro às 14:58h" dateTime="200-10-10 14:58:36">{publishedDateFormated}</time>
 
                 </header>
 
