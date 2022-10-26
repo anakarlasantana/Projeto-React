@@ -6,6 +6,11 @@ import { Comment } from "./Comment";
 
 import styles from "./Post.module.css";
 
+const comments = [
+    1,
+    2,
+    2,
+];
 
 export function Post({author, publishedAt, content}) {
     const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm 'h'",
@@ -17,6 +22,11 @@ export function Post({author, publishedAt, content}) {
         addSuffix: true,
         }
     ); 
+            /* Quando é uma função que é disparada pelo ususário, o Diego sempre usar 'handle' no nome */
+    function handleCreateNewComment() {
+        event.preventDefault() /* SinglePageAplcation - Para evitar o comportamento padrão do HTML de redirecionar o usuário quando clicar no submmit */
+        console.log('oi');
+    }
 
     return (
         <article className={styles.post}>
@@ -45,7 +55,7 @@ export function Post({author, publishedAt, content}) {
                     })}
                 </div>
 
-                <form className={styles.commentForm}>
+                <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                     <strong>Deixe o seu feedbacks</strong>
 
                     <textarea placeholder="Deixe um comentário"/>
@@ -56,12 +66,11 @@ export function Post({author, publishedAt, content}) {
                 </form>
 
                 <div className={styles.commentList}>
-                    <Comment />
-                    <Comment />
-                    <Comment />
-                    <Comment />
+                    {comments.map(comments => {
+                        return <Comment />
+                    })}
                 </div>
         </article>
-    )
+    );
 }
 
