@@ -1,18 +1,22 @@
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { useState } from "react";
 
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
 import styles from "./Post.module.css";
 
-const comments = [
-    1,
-    2,
-    2,
-];
 
 export function Post({author, publishedAt, content}) {
+    const [comments, setComments] = useState ([       /* Estado (State) = váriáveis que eu quero que o componente monitore */
+        'Post muito com!'                             /* Set = função para alterar o valor (atualiza o arrayde comentários para.. */
+                                                     /*... o react saber quando alterar e apresentar ao usuário); */
+        
+    ]);
+
+    const [newCommentText, setNewCommentsText] = useState('')
+
     const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm 'h'",
     {locale: ptBR}
     );  
@@ -25,7 +29,9 @@ export function Post({author, publishedAt, content}) {
             /* Quando é uma função que é disparada pelo ususário, o Diego sempre usar 'handle' no nome */
     function handleCreateNewComment() {
         event.preventDefault() /* SinglePageAplcation - Para evitar o comportamento padrão do HTML de redirecionar o usuário quando clicar no submmit */
-        console.log('oi');
+       // -> setComments([1,2,3]); /* Passar o novo valor, junto com os que já estavam (imutabilidade) */
+       setComments([...comments, comments.length + 1]) /* (...)  -> ele lê a váriavel, que nesse caso é um array */
+       /* Length é o tamanho ou quantidade */
     }
 
     return (
@@ -58,7 +64,11 @@ export function Post({author, publishedAt, content}) {
                 <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                     <strong>Deixe o seu feedbacks</strong>
 
-                    <textarea placeholder="Deixe um comentário"/>
+                    <textarea 
+                    name="comment" 
+                    placeholder="Deixe um comentário"
+                    onChange={handleNewCommentChange}
+                    />
                     <footer>
                     <button type="submit">Publicar</button>
                     </footer>
