@@ -54,6 +54,7 @@ export function App() {
           {posts.map(posts => {
             return (
             <Post 
+            key={posts.id} // Qual é a informação unidade de cada um dos elementos na lista //
             author={posts.author}
             content={posts.content}
             publishedAt={posts.publishedAt}

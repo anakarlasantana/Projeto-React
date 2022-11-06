@@ -10,12 +10,12 @@ import styles from "./Post.module.css";
 
 export function Post({author, publishedAt, content}) {
     const [comments, setComments] = useState ([       /* Estado (State) = váriáveis que eu quero que o componente monitore */
-        'Post muito com!'                             /* Set = função para alterar o valor (atualiza o arrayde comentários para.. */
+        'Post muito bacana!'                             /* Set = função para alterar o valor (atualiza o arrayde comentários para.. */
                                                      /*... o react saber quando alterar e apresentar ao usuário); */
         
     ]);
-
-    const [newCommentText, setNewCommentsText] = useState('')
+    // criar um novo estado, na qual essa função começa com 'set' e com a mesmo nome da função //
+    const [newCommentText, setNewCommentText] = useState('') // É sempre importante começar o estado com um valor fazio //
 
     const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm 'h'",
     {locale: ptBR}
@@ -29,9 +29,16 @@ export function Post({author, publishedAt, content}) {
             /* Quando é uma função que é disparada pelo ususário, o Diego sempre usar 'handle' no nome */
     function handleCreateNewComment() {
         event.preventDefault() /* SinglePageAplcation - Para evitar o comportamento padrão do HTML de redirecionar o usuário quando clicar no submmit */
+
        // -> setComments([1,2,3]); /* Passar o novo valor, junto com os que já estavam (imutabilidade) */
-       setComments([...comments, comments.length + 1]) /* (...)  -> ele lê a váriavel, que nesse caso é um array */
+       setComments([...comments, newCommentText]) /* (...)  -> ele lê a váriavel, que nesse caso é um array */
        /* Length é o tamanho ou quantidade */
+       setNewCommentText('');
+    }
+
+    function handleNewCommentChange() {
+        setNewCommentText(event.target.value); // Adição do valor do comentário na NewCommentTest //
+        
     }
 
     return (
@@ -54,9 +61,9 @@ export function Post({author, publishedAt, content}) {
                 <div className={styles.content}>
                     {content.map(line => {
                         if (line.type === 'paragraph') {
-                            return <p>{line.content}</p>;
+                            return <p key={line.content}>{line.content}</p>;
                         } else if (line.type === 'link') {
-                            return <p><a href="#">{line.content}</a></p>
+                            return <p key={line.content}><a href="#">{line.content}</a></p>
                         }
                     })}
                 </div>
@@ -67,8 +74,10 @@ export function Post({author, publishedAt, content}) {
                     <textarea 
                     name="comment" 
                     placeholder="Deixe um comentário"
+                    value={newCommentText}
                     onChange={handleNewCommentChange}
                     />
+
                     <footer>
                     <button type="submit">Publicar</button>
                     </footer>
@@ -76,8 +85,8 @@ export function Post({author, publishedAt, content}) {
                 </form>
 
                 <div className={styles.commentList}>
-                    {comments.map(comments => {
-                        return <Comment />
+                    {comments.map(comment => {
+                        return <Comment key={comment} content={comment} />
                     })}
                 </div>
         </article>
