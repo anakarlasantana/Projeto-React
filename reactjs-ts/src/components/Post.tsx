@@ -1,14 +1,31 @@
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
 import styles from "./Post.module.css";
 
+interface Author {
+    name: string;
+    role: string;
+    avatarUrl: string;
+}
 
-export function Post({author, publishedAt, content}) {
+interface Content {
+    type: 'paragraph' | 'link';
+    content: string
+}
+
+interface PostProps {
+    author: Author;
+    publishedAt: Date;
+    content: Content [];
+}
+
+
+export function Post({author, publishedAt, content}: PostProps) {
     const [comments, setComments] = useState ([       /* Estado (State) = váriáveis que eu quero que o componente monitore */
         'Post muito bacana!'                             /* Set = função para alterar o valor (atualiza o arrayde comentários para.. */
                                                      /*... o react saber quando alterar e apresentar ao usuário); */
@@ -27,7 +44,7 @@ export function Post({author, publishedAt, content}) {
         }
     ); 
             /* Quando é uma função que é disparada pelo ususário, o Diego sempre usar 'handle' no nome */
-    function handleCreateNewComment() {
+    function handleCreateNewComment(event: FormEvent) {
         event.preventDefault() /* SinglePageAplcation - Para evitar o comportamento padrão do HTML de redirecionar o usuário quando clicar no submmit */
 
        // -> setComments([1,2,3]); /* Passar o novo valor, junto com os que já estavam (imutabilidade) */
@@ -36,17 +53,17 @@ export function Post({author, publishedAt, content}) {
        setNewCommentText('');
     }
 
-    function handleNewCommentChange() {
+    function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity(''); /*Quando ele não estiver mais com o erro é só voltar as estado anterior */
         setNewCommentText(event.target.value); // Adição do valor do comentário na NewCommentTest //
                                 /* 'target' é busando a <textarea> */
     }
 
-    function handleNewCommentInvalid() {
+    function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('Esse campo é obrigatório!'); /* Anotamos que o input está cm erro*/
     }
 
-    function deleteComment(commentToDelete) {
+    function deleteComment(commentToDelete: string) {
         const commentsWithoutDelete = comments.filter(comment => {
             return comment !== commentToDelete;
         })
@@ -61,10 +78,10 @@ export function Post({author, publishedAt, content}) {
                 <header>
                     <div className={styles.author}>
                         <Avatar src={author.avatarUrl} />
-                        <dir className={styles.authorInfo}>
-                        <strong>{author.name}</strong>
-                        <span>{author.role}</span>
-                    </dir>
+                        <div className={styles.authorInfo}>
+                            <strong>{author.name}</strong>
+                            <span>{author.role}</span>
+                        </div>
                     </div>
                     
                     <time title={publishedDateFormated} dateTime={publishedAt.toISOString()}>
